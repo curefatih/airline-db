@@ -1,0 +1,107 @@
+Genaral:
+    SQL:
+        ☐ define ON DELETE/ ON UPDATE constraints.
+        Triggers: 
+            ✔ rezervasyon check in yapıldığında (checked_in=true) müşteri FFC ise FFC_ACTIVITY oluşturmalı @done(21-01-16 18:02)
+            ✔ bir uçak sahip olduğu tipin alabileceği kadar koltuğa sahip olabilir. @done(21-01-24 13:38)
+            ✔ leg instance en fazla uçak tipinin sahip olabileceği kadar Number_of_avaliable_seats değerine sahip olabilir. @done(21-01-24 13:38)
+            ✘ bir uçuş rezervasyonu sahip olduğu 'fare' ları kullanabilir. @cancelled(21-01-25 16:38)
+            ✔ leg instance her bir reservasyon sonrası number of avaliable seats değeri güncellenmeli. @done(21-01-26 17:31)
+            ✔ bir havalimanına yalnızca izin verilen tipte uçaklar iniş yapabilir. @done(21-01-26 17:36)
+            
+            ☐ bir uçuşun leglerinin birinin bitişi diğerinin başlangıcı olmalı.
+            ☐ check in yapılan tekrar false durumuna getirilemez.
+            ☐ leg instance date flight week days ile tutarlı olmalı.
+            ✘ trigger harici FFC_ACTIVITY kaydı girilmemeli. @cancelled(21-01-25 16:43)
+            ✘ bir check in işlemi yalnızca rezervasyon sahibi tarafından yapılabilir.C @cancelled(21-01-25 16:42)
+            
+        Check Contsraints:
+            ✔ aynı uçuş için iniş vakti kalkış vaktinden daha erken olamaz. tersi mevcut @done(21-01-21 23:10)
+            ✔ airport code 4 karakter olmalı @done(21-01-21 23:03)
+            ✔ passport number minimum 7 karakter olmalı @done(21-01-21 22:57)
+            ✔ customer ülke kodu 2 hane ve alfabetik olmalı @done(21-01-22 02:10)
+            ✔ week days 0 ile 8 arasında olmalı @done(21-01-24 23:23)
+        Queries:
+            IF [NOT] EXIST:
+                ✔ if exist : ffc olan customerları getir. @done(21-01-25 09:54)
+                ✔ if not exist : customer olup henüz uçuş yapmamış olanları getir. @done(21-01-25 09:56)
+            INSERT, DELETE UPDATE:
+                ✔ INSERT @done(21-01-25 01:17)
+                ✔ UPDATE @done(21-01-25 01:17)
+                ☐ DELETE
+            Write 10 SELECT statements for the database you have implemented:
+                ✔ 3 of them should use minimum 4 tables @done(21-01-25 19:10)
+                ✔ 3 of them should use minimum 2 tables @done(21-01-26 18:32)
+                ✔ 4 of them should use minimum 3 tables. @done(21-01-26 17:59)
+            Write 4 SELECT statements to exemplify nested and/or correlated nested queries.:
+                ✔ ffc olup rezervasyon yapanlara 10 puan ver. @done(21-01-27 14:28)
+                ✔ bir uçuşun belirli bir fiyat altında olan tarifleri ve uçuşlar. @done(21-01-27 15:12)
+                ✔ SAW'dan ADB'ye olan ve bagaj secenegi olan uçuslar @done(21-01-27 18:29)
+                ✔ Sabiha Gökçen havalimanına iniş yapmış yabancı vatandaşların listesi @done(21-01-27 18:29)
+                ✔ 754S tipli ucakta yolculuk yapmis yolcularin listesi @done(21-01-27 18:29)
+            ✔ Write 3 SELECT statements to exemplify LEFT, RIGHT and FULL OUTER JOIN statements. @done(21-01-27 18:28)
+        Create 5 views that are reasonable.:
+            ✔ havalimanı ekranlarındakine benzer bilgileri içerecek bir view. @done(21-01-26 18:51)
+            ✔ check in yapılmamış rezarvasyonların. / genel-özel @done(21-01-26 18:51)
+            ☐ 
+            ☐ 
+            ☐ 
+
+        refactor: 
+            ✔ create_ffc_activity::KAYDIN VAR OLUP OLMADIĞINI ÖNCESİNDE KONTROL ET. her update sonrası kayıt varsa bile activity ekleniyor. @done(21-01-25 01:22)
+
+    REWARD-SYS:
+        ☐ Yolculara kullandıkları tarifye katsayı belirteci olacak şekilde göre verdikleri ücret * katsayı şeklinde puan ver.
+        ☐ Katsayılar db'de bir tablo üzerinde olacak.
+        ☐ Katsayılar UI üzerinden güncellenebilir.
+        ☐ ranking sistemi olabilir ancak bellirli aralıklarla batch processing gerektirir.
+
+
+    Error-handling:
+        ☐ dupicate key errors / customer.
+        ☐ curently creating entities with save. if PK is auto generated its okey but its not should use 'insert' instead.
+        
+    Rest:
+        customer:
+            ffc:
+            ✔ CRUD @done(21-01-14 00:35)
+            ☐ Addition needed for the update FFC status.
+            localhost/customers/ffc-status -XPUT
+            {
+                status > boolean
+            }
+        
+        airport: 
+            ✔ CRUD @done(21-01-14 00:41)
+
+        company:
+            airline_company:
+            airplane_company:
+            ✔ CRUD @done(21-01-14 00:19)
+            ☐ Addition needed. 
+            done based on base model. didnt implemented for the company types.
+            can add company types for each.
+            basicly implement -> localhost/companies/types/airline|airplane -XPUT
+            {
+                airline | airplane {
+                    ...modelProps
+                }
+            }
+            for the updates
+        
+        can_land (??? currenty can land not exist on TypeORM):
+            ☐ CRUD
+        airplane:
+            ☐ CRUD
+        airplane_type:
+            ☐ CRUD
+        ffc_activity:
+            ☐ 
+        seat_reservation:
+            ☐ CRUD
+        leg_instance:
+            ☐ CRUD
+        fare:
+            ☐ CRUD
+        flight:
+            ☐ CRUD
