@@ -10,6 +10,8 @@ CREATE TABLE COMPANY(
 CREATE TABLE AIRLINE_COMPANY(
     Number_of_airplane INT DEFAULT 0 NOT NULL,
     Company_ID INT,
+    IATA VARCHAR(2),
+    Callsign VARCHAR(20),
     FOREIGN KEY (Company_ID) REFERENCES COMPANY(Company_ID),
     PRIMARY KEY (Company_ID)
 );
@@ -37,6 +39,7 @@ CREATE TABLE FLIGHT_DAY(
 CREATE TABLE FARE_CODE (
     Code VARCHAR(20),
     Description VARCHAR(100),
+    Reward_ratio DOUBLE PRECISION DEFAULT 0.0::double precision NOT NULL,
     PRIMARY KEY (Code)
 );
 CREATE TABLE FARE (
@@ -134,7 +137,10 @@ CREATE TABLE CUSTOMER(
     Address VARCHAR(200) NOT NULL,
     Country VARCHAR(50) NOT NULL,
     Phone VARCHAR(15) UNIQUE NOT NULL,
-    CHECK (char_length(Passport_number) >= 7),
+    CHECK (
+        char_length(Passport_number) >= 7
+        AND char_length(Passport_number) < 15
+    ),
     CHECK(
         char_length(Country) = 2
         AND Country ~ '[A-Z]+'
@@ -150,13 +156,12 @@ CREATE TABLE SEAT_RESERVATION(
     FOREIGN KEY(Customer_PN) REFERENCES CUSTOMER(Passport_number),
     FOREIGN KEY(Flight_number, Fare_code) REFERENCES FARE(Flight_number, Fare_code),
     Seat_number INT,
-    Reservation_number SERIAL,
     PRIMARY KEY(
         Flight_number,
         Leg_number,
         Date,
         Customer_PN,
-        Reservation_number,
+        Seat_number,
         Fare_code
     ),
     Checked_in BOOLEAN DEFAULT 'f' NOT NULL
@@ -179,23 +184,21 @@ CREATE TABLE FFC_ACTIVITY(
         Flight_number,
         Leg_number,
         Date,
-        Reservation_number,
+        Seat_number,
         Fare_code
     ) REFERENCES SEAT_RESERVATION(
         Customer_PN,
         Flight_number,
         Leg_number,
         Date,
-        Reservation_number,
+        Seat_number,
         Fare_code
     ),
-    FFC_activity_number SERIAL,
     PRIMARY KEY(
         Customer_PN,
         Flight_number,
         Leg_number,
         Date,
         Reservation_number,
-        FFC_activity_number
     )
 );

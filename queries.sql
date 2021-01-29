@@ -188,14 +188,16 @@ WHERE (s.leg_number, s.flight_number) IN (
             Airplane as A
         WHERE LI.airplane_id = A.airplane_id
             and A.airplane_type = '754S'
-    );
+    )
+    AND S.Customer_PN = C.passport_number;
 ----Sabiha Gökçen havalimanına iniş yapmış yabancı vatandaşların listesi
 SELECT DISTINCT c.name,
     s.customer_pn
 FROM customer as c,
     seat_reservation as s
-WHERE c.country != 'TR'
-    and (s.leg_number, s.flight_number) IN (
+WHERE c.country = 'TR'
+    AND S.Customer_PN = C.passport_number
+    AND (s.leg_number, s.flight_number) IN (
         SELECT LI.leg_number,
             LI.flight_number
         FROM Leg_instance as LI
@@ -223,10 +225,10 @@ FROM AIRLINE_COMPANY AS AC
 GROUP BY ac.Company_ID,
     name,
     Flight_number;
--- INNER JOIN:: Uçak üretici firmaların bilgileri.
+-- RIGHT JOIN:: Uçak üretici firmaların bilgileri.
 SELECT *
 FROM COMPANY AS C
-    INNER JOIN AIRPLANE_COMPANY AC ON C.Company_ID = AC.Company_ID;
+    RIGHT JOIN AIRPLANE_COMPANY AC ON C.Company_ID = AC.Company_ID;
 -- FULL OUTER JOIN
 SELECT *
 FROM SEAT_RESERVATION AS SR

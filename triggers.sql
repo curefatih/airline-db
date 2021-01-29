@@ -238,7 +238,9 @@ CREATE TRIGGER airplane_type_can_land_trigger
     ON LEG_INSTANCE
     FOR EACH ROW
     EXECUTE PROCEDURE airplane_type_can_land();
-
+--
+--
+--
 DROP TRIGGER airplane_type_can_land_trigger
 ON LEG_INSTANCE;
 DROP FUNCTION airplane_type_can_land();
