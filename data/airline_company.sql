@@ -1,50 +1,41 @@
-﻿/* Showing results for convertcsv.xlsx */
-
-/* CREATE TABLE */
-CREATE TABLE airline_company(
-Airline_in_Turkish VARCHAR(100),
-IATA VARCHAR(100),
-Callsign VARCHAR(100)
-);
-
-/* INSERT QUERY NO: 1 */
-INSERT INTO airline_company(Airline_in_Turkish, IATA, Callsign)
+﻿/* INSERT QUERY NO: 1 */
+INSERT INTO airline_company(company_id, number_of_airplane, iata, callsign)
 VALUES
 (
-'Anadolujet Havayolları', 'TK', 'TURKISH'
+4952, 36, 'TK', 'TURKISH'
 );
 
 /* INSERT QUERY NO: 2 */
-INSERT INTO airline_company(Airline_in_Turkish, IATA, Callsign)
+INSERT INTO airline_company(company_id, number_of_airplane, iata, callsign)
 VALUES
 (
-'Corendon Havayolları', 'XC', 'CORENDON'
+1000, 24, 'XC', 'CORENDON'
 );
 
 /* INSERT QUERY NO: 3 */
-INSERT INTO airline_company(Airline_in_Turkish, IATA, Callsign)
+INSERT INTO airline_company(company_id, number_of_airplane, iata, callsign)
 VALUES
 (
-'Onur Air Taşımacılık', '8Q', 'ONUR AIR'
+3788, 30, '8Q', 'ONUR AIR'
 );
 
 /* INSERT QUERY NO: 4 */
-INSERT INTO airline_company(Airline_in_Turkish, IATA, Callsign)
+INSERT INTO airline_company(company_id, number_of_airplane, iata, callsign)
 VALUES
 (
-'Pegasus Hava Taşımacılığı', 'PC', 'SUNTURK'
+3926, 88, 'PC', 'SUNTURK'
 );
 
 /* INSERT QUERY NO: 5 */
-INSERT INTO airline_company(Airline_in_Turkish, IATA, Callsign)
+INSERT INTO airline_company(company_id, number_of_airplane, iata, callsign)
 VALUES
 (
-'Güneş Ekspres Havacılık', 'XQ', 'SUNEXPRESS'
+4573, 55, 'XQ', 'SUNEXPRESS'
 );
 
 /* INSERT QUERY NO: 6 */
-INSERT INTO airline_company(Airline_in_Turkish, IATA, Callsign)
+INSERT INTO airline_company(company_id, number_of_airplane, iata, callsign)
 VALUES
 (
-'Türk Hava Yolları', 'TK', 'TURKISH'
+4951, 362, 'TK', 'TURKISH'
 );

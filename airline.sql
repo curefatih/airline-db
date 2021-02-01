@@ -103,8 +103,8 @@ CREATE TABLE FLIGHT_LEG(
     FOREIGN KEY(Departure_airport_code) REFERENCES Airport(Airport_code),
     FOREIGN KEY(Arrival_airport_code) REFERENCES Airport(Airport_code),
     Flight_mile INT DEFAULT 0 NOT NULL,
-    Scheduled_departure_time DATE NOT NULL,
-    Scheduled_arrival_time DATE NOT NULL,
+    Scheduled_departure_time timestamptz NOT NULL,
+    Scheduled_arrival_time timestamptz NOT NULL,
     CHECK (
         scheduled_arrival_time > scheduled_departure_time
     )
@@ -113,7 +113,7 @@ CREATE TABLE LEG_INSTANCE(
     Flight_number INT,
     Leg_number INT,
     FOREIGN KEY(Flight_number, Leg_number) REFERENCES FLIGHT_LEG(Flight_number, Leg_number),
-    Date DATE,
+    Date timestamptz,
     PRIMARY KEY(
         Flight_number,
         Leg_number,
@@ -126,8 +126,8 @@ CREATE TABLE LEG_INSTANCE(
     FOREIGN KEY(Airplane_id) REFERENCES AIRPLANE(Airplane_id),
     FOREIGN KEY(Departure_airport_code) REFERENCES Airport(Airport_code),
     FOREIGN KEY(Arrival_airport_code) REFERENCES Airport(Airport_code),
-    Departure_time DATE,
-    Arrival_time DATE,
+    Departure_time timestamptz,
+    Arrival_time timestamptz,
     CHECK (Arrival_time >= Departure_time)
 );
 CREATE TABLE CUSTOMER(
@@ -149,7 +149,7 @@ CREATE TABLE CUSTOMER(
 CREATE TABLE SEAT_RESERVATION(
     Flight_number INT,
     Leg_number INT,
-    Date DATE,
+    Date timestamptz,
     Customer_PN VARCHAR(14),
     Fare_code VARCHAR(20),
     FOREIGN KEY(Flight_number, Leg_number, Date) REFERENCES LEG_INSTANCE(Flight_number, Leg_number, Date),
@@ -176,8 +176,8 @@ CREATE TABLE FFC_ACTIVITY(
     Customer_PN VARCHAR(14),
     Flight_number INT,
     Leg_number INT,
-    Date DATE,
-    Reservation_number INT,
+    Date timestamptz,
+    Seat_number INT,
     Fare_code VARCHAR(20),
     FOREIGN KEY(
         Customer_PN,
@@ -199,6 +199,7 @@ CREATE TABLE FFC_ACTIVITY(
         Flight_number,
         Leg_number,
         Date,
-        Reservation_number,
+        Seat_number,
+        Fare_code
     )
 );

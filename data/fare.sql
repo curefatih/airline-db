@@ -1,0 +1,21 @@
+---- CREATE FARE CODE
+INSERT INTO FARE_CODE(Code, Description)
+VALUES (
+        'SUPER_EKO',
+        'EN KÜÇÜK PAKET. YALNIZCA KABİN BAGAJI'
+    );
+INSERT INTO FARE_CODE(Code, Description)
+VALUES (
+        'EKO',
+        'EKONOMİK STANDART PAKET. 20KG BAGAJ HAKKI'
+    );
+INSERT INTO FARE_CODE(Code, Description)
+VALUES (
+        'AVANTAJ',
+        'STANDART PAKET + 20KG BAGAJ + SANDVİÇ + UÇAK İÇİ HİZMET.'
+    );
+INSERT INTO FARE_CODE(Code, Description)
+VALUES (
+        'BUSINESS_FLEX',
+        'AVANTAJ PAKET DAHA FAZLA SAYILARLA.'
+    );
