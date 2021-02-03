@@ -59,6 +59,25 @@ BEGIN
             NEW.date,
             NEW.reservation_number
         );
+
+        ---- UPDATE POINT
+        -- Find reward ratio
+        SELECT Reward_ratio 
+        FROM Fare_code
+        INTO fare_reward_ratio 
+        WHERE Fare_code.code = NEW.fare_code;
+        -- find amount
+        SELECT Amount 
+        FROM Fare
+        INTO fare_amount 
+        WHERE Fare_code.code = NEW.fare_code
+        AND Fare.Flight_number = NEW.Flight_number;
+
+        -- update ffc point
+        UPDATE FFC
+        SET Point = fare_amount * fare_reward_ratio
+        WHERE FFC.Customer_PN = NEW.customer_pn; 
+
     END IF;
     RETURN NEW;
 END
