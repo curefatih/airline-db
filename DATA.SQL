@@ -62,7 +62,7 @@ INSERT INTO AIRPLANE(
         total_number_of_seats,
         airplane_type
     )
-VALUES (1, 112, '754S');
+VALUES (4952, 500, '787');
 ---- CREATE FLIGHT_LEG
 INSERT INTO FLIGHT_LEG(
         flight_number,
@@ -153,15 +153,15 @@ INSERT INTO LEG_INSTANCE(
         arrival_time
     )
 VALUES (
-        23,
+        6,
         1,
-        '2017-03-14',
+        '2020-10-06',
         112,
         1,
         'SAW',
         'ADB',
-        '2017-03-14',
-        '2017-03-14'
+        '2020-10-06 00:25:00+03',
+        '2020-10-06 06:25:00+03'
     );
 INSERT INTO LEG_INSTANCE(
         flight_number,
