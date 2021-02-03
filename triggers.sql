@@ -26,6 +26,8 @@ CREATE OR REPLACE FUNCTION create_ffc_activity()
 $$
 DECLARE
     ffc_pn SEAT_RESERVATION.customer_pn%type;
+    fare_reward_ratio Fare_code.Reward_ratio%type;
+    fare_amount Fare.Amount%type;
     already_exist FFC_ACTIVITY;
 BEGIN 
     SELECT * FROM FFC
@@ -233,9 +235,10 @@ DECLARE
     NEW_AIRPLANE_TYPE  Airplane.Airplane_type%type;
     CAN_LAND_CHECK  Can_land;
 BEGIN 
-    SELECT airplane_type FROM AIRPLANE,LEG_INSTANCE
+    SELECT airplane_type 
+    FROM AIRPLANE
     INTO NEW_AIRPLANE_TYPE 
-    WHERE NEW.airplane_id=AIRPLANE.airplane_id ;
+    WHERE NEW.airplane_id=AIRPLANE.airplane_id;
     
     SELECT * 
     FROM CAN_LAND 
