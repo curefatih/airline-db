@@ -69,9 +69,16 @@ FROM LEG_INSTANCE AS LI
 WHERE FL.Departure_airport_code = 'SAW'
     OR FL.Arrival_airport_code = 'SAW';
 -- iş analistleri için rezervasyon bilgileri
-CREATE VIEW BUSINESS_ANALYSIS() AS
-SELECT 
-    FL.Flight_number,
+CREATE VIEW BUSINESS_ANALYSIS(
+    FlightNum,
+    Legnum,
+    FlightDate,
+    Departure,
+    Arrival,
+    Fare,
+    Amount
+) AS
+SELECT FL.Flight_number,
     FL.Leg_number,
     SR.Date,
     FL.Departure_airport_code,
@@ -79,8 +86,8 @@ SELECT
     SR.Fare_code,
     F.Amount
 FROM SEAT_RESERVATION AS SR,
-FARE AS F,
-FLIGHT_LEG AS FL
+    FARE AS F,
+    FLIGHT_LEG AS FL
 WHERE SR.Flight_number = F.Flight_number
     AND SR.Fare_code = F.Fare_code
     AND FL.Leg_number = SR.Leg_number

@@ -137,3 +137,17 @@ VALUES
 (
 '53-387-8343', 'Preston Mcasparan', 'pmcasparanj@dyndns.org', '83 Morrow Plaza', 'BR', '599-876-8853'
 );
+
+/* INSERT QUERY NO: 21 */
+INSERT INTO customer(passport_number, name, email, address, country, phone)
+VALUES
+(
+'12-062-4319', 'Yiğit Pektaşoğlu', 'yigit_pektasoglu@gravatar.com', 'Aydın Söke', 'TC', '534-844-1234'
+);
+
+/* INSERT QUERY NO: 22 */
+INSERT INTO customer(passport_number, name, email, address, country, phone)
+VALUES
+(
+'53-387-1234', 'Fatih Cüre', 'curefat@dyndns.org', 'Bornova İzmir', 'TC', '599-876-1234'
+);

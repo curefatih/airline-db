@@ -35,7 +35,6 @@ FROM AIRPORT AS A,
     FLIGHT_LEG AS FL
 WHERE FL.Departure_airport_code = A.Airport_code;
 -- Belirli bir tarih aralığında belirli bir havalimanından kalkan/varan uçuşlar.
--- ??
 SELECT A.Airport_code,
     A.Name,
     LI.Departure_time,
@@ -45,8 +44,11 @@ SELECT A.Airport_code,
 FROM AIRPORT AS A,
     LEG_INSTANCE AS LI
 WHERE '2017-02-10' < LI.Departure_time
-    AND LI.Departure_airport_code = 'SAW'
-    AND A.Airport_code = 'SAW';
+    AND A.Airport_code = 'SAW'
+    AND (
+        LI.Departure_airport_code = 'SAW'
+        OR LI.Arrival_airport_code = 'SAW'
+    );
 --
 ---- 3 Tables
 -- Bir airplane_company'nin ürettiği uçak tipleri
@@ -114,7 +116,8 @@ WHERE (
 GROUP BY A.name,
     ATY.Airplane_type_name;
 -- Bir airplane company'nin ürettiği uçakları hangi şirketler kullanıyor.
-SELECT C.name URETEN,
+-- ? 
+SELECT C.name AS URETEN,
     CX.name AS KULLANAN,
     COUNT(*) AS MIKTAR
 FROM COMPANY AS C,
@@ -133,7 +136,7 @@ WHERE AC.Company_ID = C.Company_ID
 GROUP BY C.name,
     CX.name;
 -- bir uçak tipi bir havayolu tarafından kaç defa kullanıldı.
--- Belirli bir içuşta bagaj hakkı olan yolcular.
+-- Belirli bir uçuşta bagaj hakkı olan yolcular.
 SELECT SR.Customer_PN,
     C.Name,
     R.*
@@ -176,7 +179,7 @@ FROM FLIGHT,
         WHERE FARE.Amount < 150
     ) AS F_LT_150
 WHERE F_LT_150.Flight_number = FLIGHT.Flight_number;
----- 754S tipli ucakta yolculuk yapmis yolcularin listesi
+---- belirli tipli ucakta yolculuk yapmis yolcularin listesi
 SELECT DISTINCT c.name,
     s.customer_pn --verilerimiz tekrar ettigi icin 
 FROM customer as c,
@@ -195,7 +198,7 @@ SELECT DISTINCT c.name,
     s.customer_pn
 FROM customer as c,
     seat_reservation as s
-WHERE c.country = 'TR'
+WHERE c.country != 'TR'
     AND S.Customer_PN = C.passport_number
     AND (s.leg_number, s.flight_number) IN (
         SELECT LI.leg_number,
@@ -204,11 +207,11 @@ WHERE c.country = 'TR'
         WHERE LI.Arrival_airport_code = 'SAW'
     );
 ---SAW'dan ADB'ye olan ve bagaj secenegi olan uçuslar
-SELECT f.flight_number
+SELECT DISTINCT f.flight_number
 FROM flight_leg as f
-WHERE f.Departure_airport_code = 'SAW'
-    AND f.Arrival_airport_code = 'ADB'
-    AND f.flight_number = (
+WHERE f.Departure_airport_code = 'ADA'
+    AND f.Arrival_airport_code = 'ESB'
+    AND f.flight_number IN (
         SELECT flight_number
         FROM fare
         WHERE fare.luggage_limit > 0
@@ -219,8 +222,8 @@ WHERE f.Departure_airport_code = 'SAW'
 SELECT ac.Company_ID,
     c.name,
     FL.Flight_number
-FROM AIRLINE_COMPANY AS AC
-    LEFT JOIN FLIGHT FL ON AC.Company_ID = FL.Company_ID
+FROM FLIGHT AS FL 
+    LEFT JOIN AIRLINE_COMPANY AC ON AC.Company_ID = FL.Company_ID
     LEFT JOIN COMPANY C ON C.Company_ID = AC.Company_ID
 GROUP BY ac.Company_ID,
     name,
@@ -230,6 +233,6 @@ SELECT *
 FROM COMPANY AS C
     RIGHT JOIN AIRPLANE_COMPANY AC ON C.Company_ID = AC.Company_ID;
 -- FULL OUTER JOIN
-SELECT *
+SELECT DISTINCT C.*
 FROM SEAT_RESERVATION AS SR
     FULL OUTER JOIN CUSTOMER C ON C.Passport_number = SR.Customer_PN;

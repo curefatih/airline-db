@@ -53,3 +53,10 @@ VALUES
 (
 135, 'A220', 3926
 );
+
+/* INSERT QUERY NO: 8 */
+INSERT INTO airplane(total_number_of_seats, airplane_type, company_id)
+VALUES
+(
+200, '787', 4952
+);

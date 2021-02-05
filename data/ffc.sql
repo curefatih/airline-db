@@ -18,3 +18,17 @@ VALUES
 (
 '29-612-6383'
 );
+
+/* INSERT QUERY NO: 4 */
+INSERT INTO ffc(customer_pn)
+VALUES
+(
+'12-062-4319'
+);
+
+/* INSERT QUERY NO: 5 */
+INSERT INTO ffc(customer_pn)
+VALUES
+(
+'53-387-1234'
+);

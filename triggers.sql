@@ -40,7 +40,7 @@ BEGIN
         AND leg_number = NEW.leg_number
         AND date = NEW.date
         AND customer_pn = NEW.customer_pn
-        AND reservation_number = NEW.reservation_number;
+        AND seat_number = NEW.seat_number;
 
     IF NEW.checked_in = 't' AND ffc_pn IS NOT NULL AND already_exist IS NULL
     THEN
@@ -51,7 +51,7 @@ BEGIN
             leg_number,
             fare_code,
             date,
-            reservation_number
+            seat_number
         ) VALUES
         (
             NEW.customer_pn,
@@ -59,7 +59,7 @@ BEGIN
             NEW.leg_number,
             NEW.fare_code,
             NEW.date,
-            NEW.reservation_number
+            NEW.seat_number
         );
 
         ---- UPDATE POINT
@@ -72,7 +72,7 @@ BEGIN
         SELECT Amount 
         FROM Fare
         INTO fare_amount 
-        WHERE Fare_code.code = NEW.fare_code
+        WHERE Fare.fare_code = NEW.fare_code
         AND Fare.Flight_number = NEW.Flight_number;
 
         -- update ffc point
@@ -213,7 +213,7 @@ $$
 LANGUAGE PLPGSQL;
 
 CREATE TRIGGER update_num_of_available_seats_TRIGGER
-    BEFORE INSERT OR UPDATE
+    BEFORE INSERT
     ON SEAT_RESERVATION
     FOR EACH ROW
     EXECUTE PROCEDURE update_num_of_available_seats();
