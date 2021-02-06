@@ -102,3 +102,15 @@ html, body, #root, .app{
 .segment-input{
   width: 100%;
 }
+
+.toolt{
+  padding: 10px;
+}
+
+.toolt .name, .toolt .point, .toolt .count{
+  font-weight: bold;
+}
+
+.toolt .name .pn{
+  font-weight: normal;
+}

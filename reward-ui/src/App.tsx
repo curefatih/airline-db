@@ -2,7 +2,6 @@ import * as React from 'react';
 import 'flexiblegs-css';
 import './App.css';
 import SegmentColumn from './components/SegmentColumn/SegmentColumn';
-import SidebarButton from './components/SidebarButton/SidebarButton';
 import TaskbarItem from './components/TaskbarItem/TaskbarItem';
 import { Button, createStyles, Grow, makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Theme, Typography, withStyles } from '@material-ui/core';
 import Chart from 'react-apexcharts'
@@ -107,9 +106,32 @@ function App() {
         }
       },
       yaxis: {
+
+      },
+      grid: {
+        xaxis: {
+          lines: {
+            show: true
+          }
+        }
+      },
+      tooltip: {
+        custom: function ({ series, seriesIndex, dataPointIndex, w }: any) {
+          const data = w.config.series[seriesIndex].data[dataPointIndex]
+          return `
+            <div class='toolt'>
+              <div class='name'>
+                ${data.name} <span class='pn'>| (${data.customer_pn})</span>
+              </div>
+              <div>
+              Point: <span class='point'>${data.x}</span> <br/>
+              Flight count: <span class='count'>${data.y}</span>
+              </div>
+            </div>
+          `
+        },
       },
       annotations: {
-        // position: "" as string,
         points: [] as any[]
       }
     },
@@ -132,13 +154,11 @@ function App() {
     {
       name: "Ortalama uçan",
       x: 500,
-      y: 3
+      y: 2
     }
   ]);
 
   React.useEffect(() => {
-
-    console.log(clusterCentroids, customerCluster);
 
     const clusters: { name: string, type?: string, data: any[]; }[] = []
     clusterCentroids.map((cluster) => clusters.push({ name: cluster.name, type: 'scatter', data: [] }))
@@ -156,17 +176,18 @@ function App() {
         }
       })
 
-      // save as
+      // save
       clusters[minIndex].data.push(customer);
     })
 
-    const clusterPoints: { x: number; y: number; marker: { size: number; }; label: { borderColor: string; text: string; }; }[] = [];
+    const clusterPoints: { x: number; y: number; marker: { size: number; fillColor?: string; }; label: { borderColor: string; text: string; }; }[] = [];
     clusterCentroids.map((c) => {
       clusterPoints.push({
         x: c.x,
         y: c.y,
         marker: {
-          size: 8,
+          size: 2,
+          // fillColor: "#fff",
         },
         label: {
           borderColor: '#FF4560',
@@ -224,26 +245,8 @@ function App() {
     tSegments[0].customers = bronzCustomers;
     tSegments[1].customers = silverCustomers;
     tSegments[2].customers = goldCustomers;
-    console.log(tSegments);
-
     setSegments(tSegments)
-
-
   }, []);
-
-
-  // const handleNewSegmentButtonClick = () => {
-  //   const tSegments = [...segments];
-  //   tSegments.push({
-  //     minimize: false,
-  //     value: 1,
-  //     title: "Custom segment",
-  //     header: '*',
-  //     description: 'Custom segment customers',
-  //     customers: []
-  //   });
-  //   setSegments(tSegments);
-  // }
 
   const handleMinimize = (idx: number) => {
     const tSegments = [...segments];
@@ -351,7 +354,6 @@ function App() {
           <Grow
             unmountOnExit
             in={true}
-            // style={{ transformOrigin: '0 0 0' }}
             {...({ timeout: 1000 })}
           >
             <div className="col">
@@ -400,17 +402,6 @@ function App() {
               </SegmentColumn>
             </div>
           </Grow>
-
-
-
-          {/* Right button for adding new segment */}
-          {/* <div className="col">
-            <SidebarButton
-              onClick={handleNewSegmentButtonClick}>
-              New segment
-  </SidebarButton>
-          </div> */}
-
 
         </div>
 
