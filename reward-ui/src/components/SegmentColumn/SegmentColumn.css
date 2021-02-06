@@ -11,7 +11,7 @@
 }
 
 .rootExpanded {
-    width: 50vw !important;
+    width: 99vw !important;
     height: 100%;
     transition: 1s ease all;
 }

@@ -65,7 +65,7 @@ const SegmentColumn: React.FunctionComponent<SegmentColumnProps> = (props: Segme
     }
 
     const handleRefresh = () => {
-        if(props.onRefresh) props.onRefresh()
+        if (props.onRefresh) props.onRefresh()
     }
 
 
@@ -92,10 +92,13 @@ const SegmentColumn: React.FunctionComponent<SegmentColumnProps> = (props: Segme
                         variant="outlined"
                         onClick={handleMaximize}
                     ><AspectRatioRoundedIcon /></ActionButton>
-                    <ActionButton
-                        variant="outlined"
-                        onClick={handleMinimize}
-                    ><MinimizeIcon /></ActionButton>
+                    {
+                        props.onMinimizeFired &&
+                        <ActionButton
+                            variant="outlined"
+                            onClick={handleMinimize}
+                        ><MinimizeIcon /></ActionButton>
+                    }
 
                 </div>
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
