@@ -8,9 +8,10 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import MinimizeIcon from '@material-ui/icons/Minimize';
 import AspectRatioRoundedIcon from '@material-ui/icons/AspectRatioRounded';
-
+import RefreshIcon from '@material-ui/icons/Refresh';
 export interface SegmentColumnProps extends React.HTMLAttributes<HTMLDivElement> {
     onMinimizeFired?: () => void,
+    onRefresh?: () => void,
     title: string,
     header: string,
     description: string,
@@ -63,6 +64,10 @@ const SegmentColumn: React.FunctionComponent<SegmentColumnProps> = (props: Segme
         })
     }
 
+    const handleRefresh = () => {
+        if(props.onRefresh) props.onRefresh()
+    }
+
 
     return (
 
@@ -78,7 +83,11 @@ const SegmentColumn: React.FunctionComponent<SegmentColumnProps> = (props: Segme
                         padding: 3
                     }}
                     className="actions xl-right">
-
+                    {props.onRefresh ?
+                        <ActionButton
+                            variant="outlined"
+                            onClick={handleRefresh}
+                        ><RefreshIcon /></ActionButton> : null}
                     <ActionButton
                         variant="outlined"
                         onClick={handleMaximize}

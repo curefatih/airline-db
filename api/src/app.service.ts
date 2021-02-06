@@ -12,8 +12,11 @@ export class AppService {
     // KMEANS ? 
     // 
     const ffc = await this.connection.query(`
-          SELECT * FROM FFC
-          INNER JOIN FFC_ACTIVITY FA ON FA.Customer_PN = FFC.Customer_PN
+          SELECT 
+          *,
+          (SELECT COUNT(*) FROM FFC_ACTIVITY WHERE FFC.Customer_PN = FFC_ACTIVITY.Customer_PN)::INTEGER
+          FROM FFC
+          INNER JOIN CUSTOMER C ON C.Passport_number = FFC.Customer_PN
         `)
 
     return ffc;
