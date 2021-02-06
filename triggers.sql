@@ -1,24 +1,43 @@
--- CREATE OR REPLACE FUNCTION vice_versa()
---   RETURNS trigger AS
--- $$
--- BEGIN
--- if (not (exists (select * fromconnectionwhere    userid1=new.userid2 and userid2=new.userid1 )) ) then
---          INSERT INTO connection
---          VALUES(new.userid2,new.userid1);
---    END if;
--- if(new.userid1=new.userid2) then
--- Raiseexception  'Murat Osman UNALIR adina dur.!';
--- Endif;
---     RETURN NEW;
--- END;
--- $$
--- LANGUAGE 'plpgsql';
--- CREATE TRIGGER vice_versa_trigger
---   AFTER INSERT
---   ON connection
---   FOR EACH ROW
---   EXECUTE PROCEDURE vice_versa ();
--- 
+CREATE OR REPLACE FUNCTION flight_date_check()
+  RETURNS trigger AS
+$$
+BEGIN
+
+    IF NOT EXISTS (
+        SELECT 1 
+        FROM FLIGHT_DAY AS FD,
+        (SELECT extract(DOW FROM NEW.Scheduled_departure_time) AS Flight_day) AS DATES
+        WHERE Flight_number = NEW.Flight_number
+        AND DATES.Flight_day = FD.day 
+    ) THEN
+        RAISE NOTICE 'Flight day is not assigned to this flight number. Please check the flight_day table.';
+        RETURN NULL;
+    END IF;
+
+    RETURN NEW;
+END;
+$$
+LANGUAGE 'plpgsql';
+CREATE TRIGGER flight_date_check_triggger
+  BEFORE INSERT OR UPDATE
+  ON flight_leg
+  FOR EACH ROW
+  EXECUTE PROCEDURE flight_date_check();
+--
+--
+--
+/* INSERT QUERY NO: 1 */
+INSERT INTO flight_leg(flight_number, departure_airport_code, arrival_airport_code, scheduled_departure_time, scheduled_arrival_time, flight_mile)
+VALUES
+(
+45, 'AAL', 'BLL', '2021-01-11 09:33', '2020-10-09 15:33', 4029
+);
+--
+--
+DROP TRIGGER flight_date_check_triggger
+ON FLIGHT_LEG;
+DROP FUNCTION flight_date_check();
+
 -- 
 -- 
 CREATE OR REPLACE FUNCTION create_ffc_activity() 
