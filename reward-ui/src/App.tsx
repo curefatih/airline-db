@@ -98,6 +98,7 @@ function App() {
         }
       },
       xaxis: {
+        type: 'numeric',
         tickAmount: 10,
         labels: {
           formatter: function (val: string) {
@@ -106,10 +107,9 @@ function App() {
         }
       },
       yaxis: {
-        tickAmount: 7
       },
       annotations: {
-        position: "" as string,
+        // position: "" as string,
         points: [] as any[]
       }
     },
@@ -120,19 +120,19 @@ function App() {
   const [refreshCluster, setRefreshCluster] = React.useState(true);
   const [clusterCentroids, setClusterCentroids] = React.useState([
     {
-      name: "c1",
-      x: 3.7,
-      y: 12
+      name: "Nadir uçan",
+      x: 75,
+      y: 1
     },
     {
-      name: "c2",
-      x: 18.2,
+      name: "Çok para harcayan az uçan",
+      x: 1000,
+      y: 2
+    },
+    {
+      name: "Ortalama uçan",
+      x: 500,
       y: 3
-    },
-    {
-      name: "c3",
-      x: 29.8,
-      y: 6
     }
   ]);
 
@@ -157,22 +157,20 @@ function App() {
       })
 
       // save as
-      const currentData = clusters[minIndex].data;
-      currentData.push(customer)
-      clusters[minIndex].data = [...currentData];
+      clusters[minIndex].data.push(customer);
     })
 
     const clusterPoints: { x: number; y: number; marker: { size: number; }; label: { borderColor: string; text: string; }; }[] = [];
     clusterCentroids.map((c) => {
       clusterPoints.push({
-        x: 0,
-        y: 0,
+        x: c.x,
+        y: c.y,
         marker: {
-          size: 18,
+          size: 8,
         },
         label: {
           borderColor: '#FF4560',
-          text: "c.name"
+          text: c.name
         }
       })
     })
@@ -180,25 +178,13 @@ function App() {
     setCustomerCluster({
       ...customerCluster,
       series: clusters as any,
-      // options: {
-      //   ...customerCluster.options,
-      //   annotations: {
-      //     ...customerCluster.options.annotations,
-      //     points: [
-      //       {
-      //         x: 0,
-      //         y: 0,
-      //         marker: {
-      //           size: 18,
-      //         },
-      //         label: {
-      //           borderColor: '#FF4560',
-      //           text: "c.name"
-      //         }
-      //       }
-      //     ]
-      //   }
-      // }
+      options: {
+        ...customerCluster.options,
+        annotations: {
+          ...customerCluster.options.annotations,
+          points: clusterPoints
+        }
+      }
     })
 
 
