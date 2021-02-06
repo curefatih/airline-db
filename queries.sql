@@ -1,3 +1,62 @@
+UPDATE SEAT_RESERVATION
+SET Checked_in = 't'
+WHERE flight_number = 6
+    AND leg_number = 1
+    AND date = '2020-10-06 00:25:00+03'
+    AND customer_pn = '67-828-0218'
+    AND seat_number = 10;
+INSERT INTO FFC (Customer_PN)
+VALUES ('74-454-4546');
+DELETE FROM FFC
+WHERE Customer_PN = '74-454-4546';
+--
+UPDATE CUSTOMER
+SET name = 'Selami Öztürk'
+WHERE passport_number = '67-828-0218';
+INSERT INTO Customer(
+        name,
+        passport_number,
+        email,
+        address,
+        country,
+        phone
+    )
+VALUES (
+        'SQL INSERT',
+        '12-122-1235',
+        'sql@gmail.com',
+        'where',
+        'SQ',
+        '123-123-1234'
+    );
+DELETE FROM Customer
+WHERE passport_number = '12-122-1235';
+--
+INSERT INTO CAN_LAND(Airplane_type_name, Airport_code)
+VALUES ('A220', 'SAW');
+UPDATE CAN_LAND
+SET Airplane_type_name = '747-8'
+WHERE Airport_code = 'SAW'
+    AND airplane_type_name = 'A220';
+DELETE FROM CAN_LAND
+WHERE Airport_code = 'SAW'
+    AND airplane_type_name = '747-8';
+--
+INSERT INTO COMPANY(Company_ID, name, address)
+VALUES (100, 'Ege AŞ', 'İzmir');
+UPDATE COMPANY
+SET number_of_employee = 101
+WHERE Company_ID = 100;
+DELETE FROM COMPANY
+WHERE Company_ID = 100;
+--
+UPDATE FLIGHT_LEG
+SET scheduled_departure_time = '2020-10-21 21:51:00+03'
+WHERE flight_number = 107
+    AND leg_number = 108;
+DELETE FROM FLIGHT_LEG
+WHERE flight_number = 107
+    AND leg_number = 108;
 ---- EXISTS
 -- FFC olan müşteriler.
 SELECT *
@@ -116,7 +175,6 @@ WHERE (
 GROUP BY A.name,
     ATY.Airplane_type_name;
 -- Bir airplane company'nin ürettiği uçakları hangi şirketler kullanıyor.
--- ? 
 SELECT C.name AS URETEN,
     CX.name AS KULLANAN,
     COUNT(*) AS MIKTAR
@@ -125,13 +183,11 @@ FROM COMPANY AS C,
     AIRPLANE_COMPANY AS AC,
     AIRPLANE_TYPE AS ATY,
     AIRPLANE AS A,
-    LEG_INSTANCE AS LI,
     AIRLINE_COMPANY AS AIC
 WHERE AC.Company_ID = C.Company_ID
     AND AIC.Company_ID = CX.Company_ID
     AND AC.Company_ID = ATY.Company_ID
     AND ATY.Airplane_type_name = A.Airplane_type
-    AND A.Airplane_id = LI.Airplane_id
     AND AIC.Company_ID = A.Company_ID
 GROUP BY C.name,
     CX.name;
@@ -222,7 +278,7 @@ WHERE f.Departure_airport_code = 'ADA'
 SELECT ac.Company_ID,
     c.name,
     FL.Flight_number
-FROM FLIGHT AS FL 
+FROM FLIGHT AS FL
     LEFT JOIN AIRLINE_COMPANY AC ON AC.Company_ID = FL.Company_ID
     LEFT JOIN COMPANY C ON C.Company_ID = AC.Company_ID
 GROUP BY ac.Company_ID,
