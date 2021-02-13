@@ -1,3 +1,4 @@
+-- flight date 
 CREATE OR REPLACE FUNCTION flight_date_check()
   RETURNS trigger AS
 $$

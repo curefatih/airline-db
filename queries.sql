@@ -191,7 +191,6 @@ WHERE AC.Company_ID = C.Company_ID
     AND AIC.Company_ID = A.Company_ID
 GROUP BY C.name,
     CX.name;
--- bir uçak tipi bir havayolu tarafından kaç defa kullanıldı.
 -- Belirli bir uçuşta bagaj hakkı olan yolcular.
 SELECT SR.Customer_PN,
     C.Name,
@@ -201,8 +200,8 @@ FROM SEAT_RESERVATION AS SR,
     CUSTOMER AS C
 WHERE SR.Fare_code = R.Fare_code
     AND R.flight_number = SR.Flight_number
-    AND SR.Flight_number = 24
-    AND SR.Leg_number = 1
+    AND SR.Flight_number = ?
+    AND SR.Leg_number = ??
     AND R.Luggage_limit > 0
     AND SR.Customer_PN = C.Passport_number;
 -- Bir uçuş için ne kadar yemek servisi yapılacak.

@@ -228,7 +228,7 @@ function App() {
 
           res.map(customer => {
             tCustomer.push({ customer_pn: customer.customer_pn, name: customer.name, y: customer.count, x: customer.point })
-            if (customer.point < 200) {
+            if (customer.point < 1000) {
               bronzCustomers.push(customer);
             } else if (customer.point < 5000) {
               silverCustomers.push(customer);
